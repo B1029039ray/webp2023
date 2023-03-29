@@ -4,25 +4,43 @@
   </div>
   <script>
   var container = document.getElementById('container');
-  window.addEventListener("keyup", function(e) {
-  console.log(e.key);
-  if (e.key == 'Escape') {
-    container.textContent = "";
+ 
+window.onload = function() {
+  container.textContent = add_new_chars(3);
+};
+function add_new_chars(x, b = true) {
+  var n = x;
+  if (b) {
+    n = Math.floor(Math.random() * x) +  1;
+  }     
+  var str = ' ';
+  for (let i = 0; i < n; i++) {
+    str += String.fromCharCode(97 + Math.floor(Math.random() * 26));
   }
-  else if (e.key == 'Backspace') {
-    var str = container.textContent;
-    container.textContent = str.substring(0, str.length-1);
-  }
-  else {
+  return str;
+};
+var counter = 0;
+window.addEventListener("keyup", function(e) {
+  var firstone = container.textContent.substring(0,1);
+  if (e.key == firstone) {     
+    container.textContent = container.textContent.substring(1, container.textContent.length);
+  } else {    
     container.textContent += e.key;
+    if (counter++ >= 2) {
+      container.textContent += add_new_chars(6, false);
+      counter = 0;
+    }
   }
-  add_new_char();
-  });
+  container.textContent += add_new_chars(3);
+});
 
-  function add_new_chars() {  
-    Let abc = "abcdefghijklmnopqrstuvwxyz"  
-    Math.random()*abc.length
+window.addEventListener("keydown", function(e) {
+  var firstone = container.textContent.substring(0,1);
+  if (e.key == firstone) {
+    var tmp = "<span style=\"color:red;font-size:3cm\";>" + firstone + "</span>";
+    container.innerHTML = tmp + container.textContent.substring(1, container.textContent.length);
+  }
+});
 
-  };
   </script>
 </body>
